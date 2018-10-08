@@ -1,0 +1,6 @@
+[INFO ] [2018-10-08 17:33:11] org.springframework.context.support.ClassPathXmlApplicationContext [590] - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@224edc67: startup date [Mon Oct 08 17:33:11 CST 2018]; root of context hierarchy
+[INFO ] [2018-10-08 17:33:12] org.springframework.beans.factory.xml.XmlBeanDefinitionReader [316] - Loading XML bean definitions from class path resource [applicationContext.xml]
+[INFO ] [2018-10-08 17:33:14] com.diyiliu.server.netty.MonitorServer [51] - 监控服务启动, 端口[0]...
+[INFO ] [2018-10-08 17:33:47] org.springframework.context.support.ClassPathXmlApplicationContext [590] - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@224edc67: startup date [Mon Oct 08 17:33:47 CST 2018]; root of context hierarchy
+[INFO ] [2018-10-08 17:33:47] org.springframework.beans.factory.xml.XmlBeanDefinitionReader [316] - Loading XML bean definitions from class path resource [applicationContext.xml]
+[INFO ] [2018-10-08 17:33:49] com.diyiliu.server.netty.MonitorServer [51] - 监控服务启动, 端口[9909]...
