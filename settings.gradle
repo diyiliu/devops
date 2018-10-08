@@ -2,5 +2,5 @@ rootProject.name = 'devops'
 include 'monitor-common', 'monitor-server', 'monitor-client'
 
 // 使用includeFlat表示水平级别
-//includeFlat 'dyl-plugin'
+includeFlat 'dyl-plugin'
 
