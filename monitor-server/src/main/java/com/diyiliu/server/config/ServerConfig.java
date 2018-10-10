@@ -14,13 +14,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServerConfig {
 
-    @Value("${server.port}")
-    private Integer serverPort;
+    @Value("${port}")
+    private Integer port;
 
     @Bean
     public MonitorServer monitorServer() {
         MonitorServer server = new MonitorServer();
-        server.setPort(serverPort);
+        server.setPort(port);
         server.init();
 
         return server;

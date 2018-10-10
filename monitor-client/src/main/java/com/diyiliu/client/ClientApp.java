@@ -1,4 +1,6 @@
-package com.diyiliu;
+package com.diyiliu.client;
+
+import com.diyiliu.plugin.util.SpringUtil;
 
 /**
  * Description: ClientApp
@@ -9,5 +11,6 @@ public class ClientApp {
 
     public static void main(String[] args) {
 
+        SpringUtil.init();
     }
 }

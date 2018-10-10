@@ -61,9 +61,4 @@ public class MonitorServer extends Thread{
     public void setPort(int port) {
         this.port = port;
     }
-
-    public static void main(String[] args) {
-
-        MonitorServer server = new MonitorServer();
-    }
 }
