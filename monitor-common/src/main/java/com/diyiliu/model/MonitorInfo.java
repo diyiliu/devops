@@ -28,11 +28,11 @@ public class MonitorInfo {
     /** 线程数 **/
     private Integer threadCount;
 
-    /** 总内存 (GB) **/
-    private Double totalMemory;
+    /** 总内存 (MB) **/
+    private Integer totalMemory;
 
-    /** 剩余内存 (GB) **/
-    private Double availableMemory;
+    /** 剩余内存 (MB) **/
+    private Integer availableMemory;
 
     /** 内存使用率 **/
     private Double memUsage;

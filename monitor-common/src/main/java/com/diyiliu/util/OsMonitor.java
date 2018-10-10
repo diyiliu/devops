@@ -15,6 +15,7 @@ import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 import oshi.util.Util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 
 public class OsMonitor {
-    private static final long GIBI = 1L << 30;
+    private static final long MEBI = 1L << 20;
 
     private HardwareAbstractionLayer hal;
     private OperatingSystem os;
@@ -49,8 +50,8 @@ public class OsMonitor {
         info.setThreadCount(os.getThreadCount());
 
         GlobalMemory memory = hal.getMemory();
-        Double availableMemory = CommonUtil.keepDecimal(memory.getAvailable() * 1d / GIBI, 2);
-        Double totalMemory = CommonUtil.keepDecimal(memory.getTotal() * 1d / GIBI, 2);
+        int availableMemory = new BigDecimal(memory.getAvailable() * 1d / MEBI).intValue();
+        int totalMemory = new BigDecimal(memory.getTotal() * 1d / MEBI).intValue();
         info.setAvailableMemory(availableMemory);
         info.setTotalMemory(totalMemory);
         info.setMemUsage(CommonUtil.keepDecimal((memory.getTotal() - memory.getAvailable()) * 1d / memory.getTotal(), 2));
@@ -74,7 +75,9 @@ public class OsMonitor {
             String vsz = FormatUtil.formatBytes(process.getVirtualSize());
             String rss = FormatUtil.formatBytes(process.getResidentSetSize());
 
-            infoList.add(new ProcessInfo(pid, name, memUsage, vsz, rss));
+            if (memUsage > 0.01) {
+                infoList.add(new ProcessInfo(pid, name, memUsage, vsz, rss));
+            }
         }
 
         return infoList;
@@ -88,14 +91,19 @@ public class OsMonitor {
         for (OSFileStore fs : fsArray) {
             long usable = fs.getUsableSpace();
             long total = fs.getTotalSpace();
-            String mount = fs.getMount().replaceAll("/", "").replaceAll("\\\\", "");
-            String type = fs.getType();
-            Double diskUsage = CommonUtil.keepDecimal((total - usable) * 1d / total, 2);
 
-            Double usableG = CommonUtil.keepDecimal(usable * 1d / GIBI, 1);
-            Double totalG = CommonUtil.keepDecimal(total * 1d / GIBI, 1);
+            if (total > 0) {
+                String mount = fs.getMount().replaceAll("/", "").replaceAll("\\\\", "");
+                String volume = fs.getVolume();
+                String name = os.getFamily().toLowerCase().indexOf("windows") > -1 ? mount : volume;
 
-            infoList.add(new DiskInfo(mount, type, usableG, totalG, diskUsage));
+                String type = fs.getType();
+                int usableM = new BigDecimal(usable * 1d / MEBI).intValue();
+                int totalM = new BigDecimal(total * 1d / MEBI).intValue();
+
+                Double diskUsage = CommonUtil.keepDecimal((totalM - usableM) * 1d / totalM, 2);
+                infoList.add(new DiskInfo(name, type, usableM, totalM, diskUsage));
+            }
         }
 
         return infoList;

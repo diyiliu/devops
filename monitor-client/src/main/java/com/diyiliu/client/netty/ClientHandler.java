@@ -4,6 +4,7 @@ import com.diyiliu.model.DiskInfo;
 import com.diyiliu.model.MonitorInfo;
 import com.diyiliu.model.ProcessInfo;
 import com.diyiliu.plugin.util.CommonUtil;
+import com.diyiliu.plugin.util.JacksonUtil;
 import com.diyiliu.plugin.util.SpringUtil;
 import com.diyiliu.util.OsMonitor;
 import io.netty.buffer.ByteBuf;
@@ -79,16 +80,18 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         OsMonitor monitor = SpringUtil.getBean("monitor");
         MonitorInfo monitorInfo = monitor.osHealth();
 
+        //log.info("发送: " + JacksonUtil.toJson(monitorInfo));
+
         int cpuUsage = new BigDecimal(monitorInfo.getCpuLoad() * 100).intValue();
         int memUsage = new BigDecimal(monitorInfo.getMemUsage() * 100).intValue();
-        int totalMemory = new BigDecimal(monitorInfo.getTotalMemory() * 1000).intValue();
+        int totalMemory = monitorInfo.getTotalMemory();
         List<ProcessInfo> processInfoList = monitorInfo.getProcessInfos();
         List<DiskInfo> diskInfoList = monitorInfo.getDiskInfos();
 
         ByteBuf buf = Unpooled.buffer();
         buf.writeByte(cpuUsage);
         buf.writeByte(memUsage);
-        buf.writeShort(totalMemory);
+        buf.writeInt(totalMemory);
 
         // 进程
         buf.writeByte(processInfoList.size());
@@ -106,15 +109,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         // 磁盘
         buf.writeByte(diskInfoList.size());
         for (DiskInfo diskInfo : diskInfoList) {
-            String name = diskInfo.getMount();
+            String name = diskInfo.getName();
             byte[] nameArray = name.getBytes();
             int usage = new BigDecimal(diskInfo.getDiskUsage() * 100).intValue();
-            int totalSpace = new BigDecimal(diskInfo.getTotalSpace() * 1000).intValue();
+            int totalSpace = diskInfo.getTotalSpace();
 
             buf.writeShort(nameArray.length);
             buf.writeBytes(nameArray);
             buf.writeByte(usage);
-            buf.writeShort(totalSpace);
+            buf.writeInt(totalSpace);
         }
 
         int index = buf.writerIndex();

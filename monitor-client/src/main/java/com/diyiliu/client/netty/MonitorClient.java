@@ -51,7 +51,7 @@ public class MonitorClient extends Thread {
 
         try {
             ChannelFuture future = bootstrap.connect(host, port).sync();
-            log.info("监控客户端启动 ...");
+            log.info("客户端连接成功 ...");
             future.channel().closeFuture().sync();
         } catch (Exception e) {
             log.error("连接异常！{}", e.getMessage());

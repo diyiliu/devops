@@ -10,7 +10,6 @@ import com.diyiliu.plugin.util.SpringUtil;
 public class ClientApp {
 
     public static void main(String[] args) {
-
         SpringUtil.init();
     }
 }
