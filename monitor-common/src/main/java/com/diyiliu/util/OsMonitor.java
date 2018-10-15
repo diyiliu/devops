@@ -32,6 +32,14 @@ public class OsMonitor {
     private HardwareAbstractionLayer hal;
     private OperatingSystem os;
 
+    private String host = "127.0.0.1";
+
+    public OsMonitor(String host) {
+        this();
+
+        this.host = host;
+    }
+
     public OsMonitor() {
         SystemInfo si = new SystemInfo();
         hal = si.getHardware();
@@ -43,6 +51,10 @@ public class OsMonitor {
         info.setOs(os.getFamily());
 
         CentralProcessor processor = hal.getProcessor();
+        info.setCpuName(processor.getName());
+        info.setCpuCore(processor.getPhysicalProcessorCount());
+        info.setLogicalCpu(processor.getLogicalProcessorCount());
+
         Util.sleep(1000);
         info.setCpuLoad(CommonUtil.keepDecimal(processor.getSystemCpuLoad(), 2));
         info.setAvgCpuLoad(processor.getProcessorCpuLoadBetweenTicks());
@@ -107,5 +119,9 @@ public class OsMonitor {
         }
 
         return infoList;
+    }
+
+    public String getHost() {
+        return host;
     }
 }

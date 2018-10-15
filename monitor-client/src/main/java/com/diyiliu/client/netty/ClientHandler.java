@@ -16,7 +16,6 @@ import io.netty.handler.timeout.IdleStateEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.net.InetAddress;
 import java.util.List;
 
 /**
@@ -52,14 +51,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
             } else if (IdleState.WRITER_IDLE == event.state()) {
                 log.info("发送系统监控信息 ...");
+                OsMonitor monitor = SpringUtil.getBean("monitor");
 
                 // 本机 IP
-                String ip = InetAddress.getLocalHost().getHostAddress();
+                String ip = monitor.getHost();
                 // 本机 操作系统
                 String osName = System.getProperty("os.name");
                 int os = osName.toLowerCase().indexOf("windows") > -1 ? 1 : 0;
                 // 系统监控信息
-                byte[] monitorBytes = monitorInfo();
+                byte[] monitorBytes = monitorInfo(monitor.osHealth());
                 int length = monitorBytes.length;
 
                 ByteBuf buf = Unpooled.buffer(8 + length);
@@ -76,11 +76,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         }
     }
 
-    private byte[] monitorInfo() {
-        OsMonitor monitor = SpringUtil.getBean("monitor");
-        MonitorInfo monitorInfo = monitor.osHealth();
-
-        //log.info("发送: " + JacksonUtil.toJson(monitorInfo));
+    private byte[] monitorInfo(MonitorInfo monitorInfo) {
+        log.info("发送: " + JacksonUtil.toJson(monitorInfo));
 
         int cpuUsage = new BigDecimal(monitorInfo.getCpuLoad() * 100).intValue();
         int memUsage = new BigDecimal(monitorInfo.getMemUsage() * 100).intValue();
@@ -89,6 +86,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         List<DiskInfo> diskInfoList = monitorInfo.getDiskInfos();
 
         ByteBuf buf = Unpooled.buffer();
+        buf.writeByte(monitorInfo.getCpuCore());
         buf.writeByte(cpuUsage);
         buf.writeByte(memUsage);
         buf.writeInt(totalMemory);

@@ -17,7 +17,7 @@ import javax.annotation.Resource;
  */
 
 @Configuration
-@PropertySource("classpath:client.properties")
+@PropertySource("classpath:config.properties")
 public class ClientConfig {
 
     @Resource
@@ -35,8 +35,8 @@ public class ClientConfig {
 
     @Bean
     public OsMonitor monitor(){
-
-        return new OsMonitor();
+        String host = environment.getProperty("localhost");
+        return new OsMonitor(host);
     }
 
     @Bean

@@ -48,6 +48,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
         // 主机监控
         if (0x01 == cmd) {
+            int cpuCore = buf.readByte();
             int cpuUsage = buf.readByte();
             int memUsage = buf.readByte();
             int totalMemory = buf.readInt();
@@ -90,6 +91,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
             MonitorInfo monitorInfo = new MonitorInfo();
             monitorInfo.setOs(os == 1 ? "Windows" : "Linux");
+            monitorInfo.setCpuCore(cpuCore);
             monitorInfo.setCpuLoad(cpuUsage / 100d);
             monitorInfo.setMemUsage(memUsage / 100d);
             monitorInfo.setTotalMemory(totalMemory);

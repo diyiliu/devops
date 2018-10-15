@@ -16,6 +16,15 @@ public class MonitorInfo {
     /**  操作系统 **/
     private String os;
 
+    /** CPU **/
+    private String cpuName;
+
+    /** CPU 内核数量 **/
+    private Integer cpuCore;
+
+    /** CPU 逻辑处理器数量 **/
+    private Integer logicalCpu;
+
     /** CPU 使用率 **/
     private double cpuLoad;
 
