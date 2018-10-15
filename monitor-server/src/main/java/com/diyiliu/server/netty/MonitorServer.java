@@ -2,6 +2,7 @@ package com.diyiliu.server.netty;
 
 import com.diyiliu.codec.MsgDecoder;
 import com.diyiliu.codec.MsgEncoder;
+import com.diyiliu.server.support.IMsgObserver;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -21,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MonitorServer extends Thread{
     private int port;
+
+    private IMsgObserver observer;
 
     public void init() {
 
@@ -43,7 +46,7 @@ public class MonitorServer extends Thread{
                         protected void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new MsgEncoder())
                                     .addLast(new MsgDecoder())
-                                    .addLast(new ServerHandler());
+                                    .addLast(new ServerHandler(observer));
                         }
                     });
 
@@ -60,5 +63,9 @@ public class MonitorServer extends Thread{
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    public void setObserver(IMsgObserver observer) {
+        this.observer = observer;
     }
 }

@@ -5,6 +5,7 @@ import com.diyiliu.model.MonitorInfo;
 import com.diyiliu.model.ProcessInfo;
 import com.diyiliu.plugin.util.CommonUtil;
 import com.diyiliu.plugin.util.JacksonUtil;
+import com.diyiliu.server.support.IMsgObserver;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,6 +23,12 @@ import java.util.List;
 
 @Slf4j
 public class ServerHandler extends ChannelInboundHandlerAdapter {
+
+    private IMsgObserver observer;
+
+    public ServerHandler(IMsgObserver observer) {
+        this.observer = observer;
+    }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
@@ -90,6 +97,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
             }
 
             MonitorInfo monitorInfo = new MonitorInfo();
+            monitorInfo.setIp(ip);
             monitorInfo.setOs(os == 1 ? "Windows" : "Linux");
             monitorInfo.setCpuCore(cpuCore);
             monitorInfo.setCpuLoad(cpuUsage / 100d);
@@ -98,8 +106,11 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
             monitorInfo.setProcessInfos(processInfoList);
             monitorInfo.setDiskInfos(diskInfoList);
-
-            log.info("接收 [{}]: {}", ip, JacksonUtil.toJson(monitorInfo));
+            if (observer != null){
+                observer.read(monitorInfo);
+            }else {
+                log.info("接收 [{}]: {}", ip, JacksonUtil.toJson(monitorInfo));
+            }
         }
 
     }

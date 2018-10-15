@@ -13,6 +13,8 @@ import java.util.List;
 @Data
 public class MonitorInfo {
 
+    private String ip;
+
     /**  操作系统 **/
     private String os;
 
