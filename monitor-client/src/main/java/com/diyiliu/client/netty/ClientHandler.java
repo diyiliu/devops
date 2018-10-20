@@ -89,7 +89,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     private byte[] monitorInfo(MonitorInfo monitorInfo) {
-        log.info("发送: " + JacksonUtil.toJson(monitorInfo));
+        log.debug("发送: " + JacksonUtil.toJson(monitorInfo));
 
         int cpuUsage = new BigDecimal(monitorInfo.getCpuLoad() * 100).intValue();
         int memUsage = new BigDecimal(monitorInfo.getMemUsage() * 100).intValue();
