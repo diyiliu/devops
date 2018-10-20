@@ -5,8 +5,14 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="devops_main" target="1.8" />
-      <module name="devops_test" target="1.8" />
+      <module name="dyl-plugin_main" target="1.8" />
+      <module name="dyl-plugin_test" target="1.8" />
+      <module name="monitor-client_main" target="1.8" />
+      <module name="monitor-client_test" target="1.8" />
+      <module name="monitor-common_main" target="1.8" />
+      <module name="monitor-common_test" target="1.8" />
+      <module name="monitor-server_main" target="1.8" />
+      <module name="monitor-server_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

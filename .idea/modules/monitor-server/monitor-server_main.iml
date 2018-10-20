@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":monitor-server:main" external.linked.project.path="$MODULE_DIR$/../../../monitor-server" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" external.system.module.group="com.diyiliu" external.system.module.type="sourceSet" external.system.module.version="1.0" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+    <output url="file://$MODULE_DIR$/../../../monitor-server/out/production/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../monitor-server/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../monitor-server/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../monitor-server/src/main/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="monitor-common_main" />
+    <orderEntry type="module" module-name="dyl-plugin_main" />
+    <orderEntry type="library" name="Gradle: com.github.oshi:oshi-core:3.8.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jdbc:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-tx:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-beans:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-expression:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-core:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-all:4.1.22.Final" level="project" />
+    <orderEntry type="library" name="Gradle: com.alibaba:druid:1.1.2" level="project" />
+    <orderEntry type="library" name="Gradle: mysql:mysql-connector-java:5.1.36" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.commons:commons-lang3:3.7" level="project" />
+    <orderEntry type="library" name="Gradle: commons-collections:commons-collections:3.2.2" level="project" />
+    <orderEntry type="library" name="Gradle: dom4j:dom4j:1.6.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.projectlombok:lombok:1.16.20" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna-platform:4.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jcl:5.0.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" name="Gradle: net.java.dev.jna:jna:4.5.2" level="project" />
+  </component>
+</module>

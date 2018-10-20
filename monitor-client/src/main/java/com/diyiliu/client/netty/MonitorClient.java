@@ -42,7 +42,7 @@ public class MonitorClient extends Thread {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) {
-                        ch.pipeline().addLast(new IdleStateHandler(0, 10, 0))
+                        ch.pipeline().addLast(new IdleStateHandler(0, 60, 0))
                                 .addLast(new MsgEncoder())
                                 .addLast(new MsgDecoder())
                                 .addLast(new ClientHandler());

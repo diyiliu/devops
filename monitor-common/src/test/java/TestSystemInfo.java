@@ -1,9 +1,11 @@
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import oshi.SystemInfo;
-import oshi.hardware.*;
-import oshi.hardware.CentralProcessor.TickType;
-import oshi.software.os.*;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HardwareAbstractionLayer;
+import oshi.software.os.FileSystem;
+import oshi.software.os.OSFileStore;
+import oshi.software.os.OSProcess;
+import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 import oshi.util.Util;
 

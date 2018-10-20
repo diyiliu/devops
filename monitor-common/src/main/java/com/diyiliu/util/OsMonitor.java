@@ -79,7 +79,7 @@ public class OsMonitor {
 
         GlobalMemory memory = hal.getMemory();
         // Sort by highest MEMORY
-        List<OSProcess> processList = Arrays.asList(os.getProcesses(5, OperatingSystem.ProcessSort.MEMORY));
+        List<OSProcess> processList = Arrays.asList(os.getProcesses(5, OperatingSystem.ProcessSort.CPU));
         for (OSProcess process : processList) {
             int pid = process.getProcessID();
             String name = process.getName();
@@ -87,9 +87,7 @@ public class OsMonitor {
             String vsz = FormatUtil.formatBytes(process.getVirtualSize());
             String rss = FormatUtil.formatBytes(process.getResidentSetSize());
 
-            if (memUsage > 0.01) {
-                infoList.add(new ProcessInfo(pid, name, memUsage, vsz, rss));
-            }
+            infoList.add(new ProcessInfo(pid, name, memUsage, vsz, rss));
         }
 
         return infoList;

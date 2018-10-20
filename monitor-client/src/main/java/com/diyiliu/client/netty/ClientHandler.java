@@ -28,6 +28,12 @@ import java.util.List;
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+
+        heartbeat(ctx);
+    }
+
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
 
 
@@ -40,7 +46,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) {
         //String key = ctx.channel().remoteAddress().toString().trim().replaceFirst("/", "");
 
         // 心跳处理
@@ -50,30 +56,36 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
                 //log.warn("读超时 ... [{}]", key);
 
             } else if (IdleState.WRITER_IDLE == event.state()) {
-                log.info("发送系统监控信息 ...");
-                OsMonitor monitor = SpringUtil.getBean("monitor");
 
-                // 本机 IP
-                String ip = monitor.getHost();
-                // 本机 操作系统
-                String osName = System.getProperty("os.name");
-                int os = osName.toLowerCase().indexOf("windows") > -1 ? 1 : 0;
-                // 系统监控信息
-                byte[] monitorBytes = monitorInfo(monitor.osHealth());
-                int length = monitorBytes.length;
-
-                ByteBuf buf = Unpooled.buffer(8 + length);
-                buf.writeBytes(CommonUtil.ipToBytes(ip));
-                buf.writeByte(os);
-                buf.writeByte(0x01);
-                buf.writeShort(length);
-                buf.writeBytes(monitorBytes);
-                ctx.writeAndFlush(buf);
+                heartbeat(ctx);
             } else if (IdleState.ALL_IDLE == event.state()) {
 
                 //log.warn("读/写超时...");
             }
         }
+    }
+
+
+    private void heartbeat(ChannelHandlerContext ctx) {
+        log.info("发送系统监控信息 ...");
+        OsMonitor monitor = SpringUtil.getBean("monitor");
+
+        // 本机 IP
+        String ip = monitor.getHost();
+        // 本机 操作系统
+        String osName = System.getProperty("os.name");
+        int os = osName.toLowerCase().indexOf("windows") > -1 ? 1 : 0;
+        // 系统监控信息
+        byte[] monitorBytes = monitorInfo(monitor.osHealth());
+        int length = monitorBytes.length;
+
+        ByteBuf buf = Unpooled.buffer(8 + length);
+        buf.writeBytes(CommonUtil.ipToBytes(ip));
+        buf.writeByte(os);
+        buf.writeByte(0x01);
+        buf.writeShort(length);
+        buf.writeBytes(monitorBytes);
+        ctx.writeAndFlush(buf);
     }
 
     private byte[] monitorInfo(MonitorInfo monitorInfo) {
